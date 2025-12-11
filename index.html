@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שאלון LLMs.txt | קידום בינה מלאכותית</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-section: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-focus: #2563eb;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Hero Header */
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #06b6d4 100%);
+            padding: 3rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-badge svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero h1 {
+            font-family: 'Rubik', sans-serif;
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Info Box */
+        .info-box {
+            max-width: 800px;
+            margin: -2rem auto 2rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .info-card h3 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.125rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-card h3 svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .progress-percent {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-section);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 100px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--bg-section) 0%, #fff 100%);
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.2s ease;
+        }
+
+        .section-header:hover {
+            background: var(--bg-section);
+        }
+
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+        }
+
+        .section-title-group {
+            flex: 1;
+        }
+
+        .section-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.125rem;
+        }
+
+        .section-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-section);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background 0.2s ease;
+        }
+
+        .section-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+        }
+
+        .form-section.collapsed .section-toggle {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 1.5rem;
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .form-section.collapsed .section-content {
+            display: none;
+        }
+
+        /* Form Fields */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .required-star {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .label-hint {
+            font-size: 0.8125rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="url"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--bg-section);
+            border: 2px solid transparent;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            background: #fff;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Service Card */
+        .service-card {
+            background: var(--bg-section);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .service-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-card-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-card-title span {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .btn-remove-service {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .btn-remove-service:hover {
+            background: #fecaca;
+        }
+
+        .btn-remove-service svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .service-fields {
+            display: grid;
+            gap: 1rem;
+        }
+
+        /* FAQ Item */
+        .faq-item {
+            background: var(--bg-section);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .faq-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-item-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .faq-fields {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        /* Buttons */
+        .btn-add {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem;
+            background: #fff;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-add svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .submit-section h3 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.25rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .submit-section p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9375rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            background: #fff;
+            color: var(--primary);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-submit svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Output Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .btn-close {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-section);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .btn-close:hover {
+            background: var(--border);
+        }
+
+        .btn-close svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .output-textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            background: #1e293b;
+            color: #e2e8f0;
+            border: none;
+            border-radius: var(--radius-sm);
+            resize: vertical;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .btn-copy, .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-family: 'Heebo', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-copy {
+            background: var(--bg-section);
+            color: var(--text-primary);
+        }
+
+        .btn-copy:hover {
+            background: var(--border);
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-copy svg, .btn-download svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1100;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast svg {
+            width: 20px;
+            height: 20px;
+            color: var(--success);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .info-box {
+                margin-top: -1.5rem;
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem 3rem;
+            }
+
+            .section-content {
+                padding: 1.25rem;
+            }
+
+            .service-card {
+                padding: 1rem;
+            }
+
+            .submit-section {
+                padding: 1.5rem;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+            }
+
+            .btn-copy, .btn-download {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Header -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+                GEO - Generative Engine Optimization
+            </div>
+            <h1>שאלון LLMs.txt</h1>
+            <p class="hero-subtitle">מילוי השאלון יעזור לנו לבנות עבורכם קובץ שיחזק את הנראות של העסק בתשובות של מודלי AI</p>
+        </div>
+    </header>
+
+    <!-- Info Box -->
+    <div class="info-box">
+        <div class="info-card">
+            <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/>
+                    <path d="M12 8h.01"/>
+                </svg>
+                מה זה LLMs.txt?
+            </h3>
+            <p>קובץ <strong>LLMs.txt</strong> הוא קובץ טקסט שמונח בשורש האתר ומסייע למנועי AI (כמו ChatGPT, Claude, Gemini) להבין במה העסק עוסק, אילו שירותים אתם מציעים, ואילו עמודים עדיף לצטט מהאתר. המטרה היא לחזק את הנראות והמסרים שלכם בתשובות של מודלי שפה ובהמלצות מבוססות תוכן - כך שכאשר מישהו שואל את ה-AI על שירותים בתחום שלכם, התשובה תכלול אתכם.</p>
+        </div>
+    </div>
+
+    <!-- Main Form -->
+    <main class="container">
+        <form id="llmsForm">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span class="progress-label">התקדמות מילוי השאלון</span>
+                    <span class="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- Section 1: Business Details -->
+            <section class="form-section" id="section-business">
+                <div class="section-header" onclick="toggleSection('section-business')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21h18"/>
+                            <path d="M9 8h1"/>
+                            <path d="M9 12h1"/>
+                            <path d="M9 16h1"/>
+                            <path d="M14 8h1"/>
+                            <path d="M14 12h1"/>
+                            <path d="M14 16h1"/>
+                            <path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">פרטי העסק</h2>
+                        <p class="section-subtitle">מידע בסיסי על העסק שלכם</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>שם העסק המלא <span class="required-star">*</span></label>
+                        <input type="text" name="businessName" placeholder="כפי שתרצו שיופיע בתשובות AI" required>
+                    </div>
+                    <div class="form-group">
+                        <label>כתובת האתר (URL) <span class="required-star">*</span></label>
+                        <input type="url" name="websiteUrl" placeholder="https://example.co.il" required dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>שפות האתר</label>
+                        <input type="text" name="languages" placeholder="עברית, אנגלית...">
+                    </div>
+                    <div class="form-group">
+                        <label>תיאור קצר <span class="label-hint">(1-2 משפטים על מה אתם עושים ולמי)</span> <span class="required-star">*</span></label>
+                        <textarea name="shortDescription" placeholder="למשל: קליניקה לפיזיותרפיה המתמחה בשיקום ספורטאים ואנשים לאחר ניתוחים אורתופדיים" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>במה אתם מתמחים במיוחד? <span class="label-hint">(3 נקודות קצרות)</span></label>
+                        <textarea name="specializations" placeholder="1. שיקום לאחר ניתוחי ברך&#10;2. טיפול בכאבי גב תחתון&#10;3. פיזיותרפיה לספורטאים"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>אזור שירות מרכזי</label>
+                        <input type="text" name="serviceArea" placeholder="למשל: תל אביב והמרכז / כל הארץ / אונליין">
+                    </div>
+                    <div class="form-group">
+                        <label>קהלי יעד עיקריים <span class="label-hint">(2-3 קבוצות)</span></label>
+                        <textarea name="targetAudiences" placeholder="למשל: ספורטאים מקצועיים, אנשים לאחר ניתוחים, עובדי הייטק עם כאבי גב"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>מילות מפתח מרכזיות <span class="label-hint">(איך תרצו שימצאו אתכם?)</span></label>
+                        <textarea name="keywords" placeholder="למשל: פיזיותרפיה תל אביב, שיקום ספורטאים, טיפול כאבי גב"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>יתרונות והוכחות אמון <span class="label-hint">(3-5 נקודות עובדתיות)</span></label>
+                        <textarea name="trustProofs" placeholder="למשל:&#10;• 15 שנות ניסיון&#10;• תואר שני בפיזיותרפיה&#10;• מעל 5,000 מטופלים&#10;• הסמכה בשיטת MDT"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>שעות פעילות</label>
+                        <input type="text" name="businessHours" placeholder="למשל: א׳-ה׳ 08:00-20:00, ו׳ 08:00-13:00">
+                    </div>
+                    <div class="form-group">
+                        <label>אופן קביעת תור וזמינות</label>
+                        <input type="text" name="bookingMethod" placeholder="למשל: טלפון, וואטסאפ, הזמנה באתר">
+                    </div>
+                    <div class="form-group">
+                        <label>Call to Action עיקרי <span class="label-hint">(מה הפעולה שתרצו שאנשים יעשו?)</span></label>
+                        <input type="text" name="mainCTA" placeholder="למשל: הזמינו ייעוץ ראשוני חינם / התקשרו עכשיו / השאירו פרטים">
+                    </div>
+                    <div class="form-group">
+                        <label>משפט עדות לקוח קצר <span class="label-hint">(אם יש)</span></label>
+                        <textarea name="testimonial" placeholder="למשל: ״אחרי 3 טיפולים הכאב בגב נעלם לחלוטין״ - דני, 42"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>מה לא לציין בתשובות AI <span class="label-hint">(אם יש משהו שחשוב להימנע ממנו)</span></label>
+                        <textarea name="excludeTopics" placeholder="למשל: מחירים ספציפיים, שירותים שכבר לא מציעים..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Services -->
+            <section class="form-section" id="section-services">
+                <div class="section-header" onclick="toggleSection('section-services')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">שירותים</h2>
+                        <p class="section-subtitle">פרטו את השירותים העיקריים שאתם מציעים</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="servicesContainer">
+                        <!-- Service 1 -->
+                        <div class="service-card" data-service="1">
+                            <div class="service-card-header">
+                                <div class="service-card-title">
+                                    <span>1</span>
+                                    שירות ראשון
+                                </div>
+                            </div>
+                            <div class="service-fields">
+                                <div class="form-group">
+                                    <label>שם השירות</label>
+                                    <input type="text" name="service1_name" placeholder="למשל: פיזיותרפיה אורתופדית">
+                                </div>
+                                <div class="form-group">
+                                    <label>למי זה מתאים? <span class="label-hint">(בעיות/מצבים נפוצים)</span></label>
+                                    <textarea name="service1_audience" placeholder="למשל: אנשים עם כאבי ברכיים, לאחר ניתוח החלפת מפרק, פציעות ספורט"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>מה מקבלים? <span class="label-hint">(תועלת מרכזית אחת)</span></label>
+                                    <input type="text" name="service1_benefit" placeholder="למשל: חזרה לתפקוד מלא ללא כאב">
+                                </div>
+                                <div class="form-group">
+                                    <label>איך זה עובד? <span class="label-hint">(2-3 צעדים בתהליך)</span></label>
+                                    <textarea name="service1_process" placeholder="למשל: 1. אבחון ראשוני 2. תוכנית טיפול מותאמת 3. מעקב והתאמות"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>מתי מרגישים שיפור? <span class="label-hint">(טווח מפגשים משוער)</span></label>
+                                    <input type="text" name="service1_timeline" placeholder="למשל: בדרך כלל 4-8 טיפולים">
+                                </div>
+                                <div class="form-group">
+                                    <label>דרישות מקדימות <span class="label-hint">(אם יש)</span></label>
+                                    <input type="text" name="service1_requirements" placeholder="למשל: הפניה מרופא אורתופד / ללא דרישות">
+                                </div>
+                                <div class="form-group">
+                                    <label>הערות חשובות / התוויות נגד <span class="label-hint">(אם יש)</span></label>
+                                    <input type="text" name="service1_notes" placeholder="למשל: לא מתאים למצבים דלקתיים אקוטיים">
+                                </div>
+                                <div class="form-group">
+                                    <label>קישור לעמוד השירות באתר</label>
+                                    <input type="url" name="service1_url" placeholder="https://example.co.il/services/..." dir="ltr">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addService()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 8v8"/>
+                            <path d="M8 12h8"/>
+                        </svg>
+                        הוספת שירות נוסף
+                    </button>
+                </div>
+            </section>
+
+            <!-- Section 3: FAQ -->
+            <section class="form-section" id="section-faq">
+                <div class="section-header" onclick="toggleSection('section-faq')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                            <path d="M12 17h.01"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">שאלות נפוצות</h2>
+                        <p class="section-subtitle">3-5 שאלות שלקוחות שואלים הכי הרבה</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="faqContainer">
+                        <div class="faq-item" data-faq="1">
+                            <div class="faq-item-header">
+                                <span class="faq-item-title">שאלה 1</span>
+                            </div>
+                            <div class="faq-fields">
+                                <input type="text" name="faq1_question" placeholder="השאלה...">
+                                <textarea name="faq1_answer" placeholder="התשובה הקצרה..." rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="faq-item" data-faq="2">
+                            <div class="faq-item-header">
+                                <span class="faq-item-title">שאלה 2</span>
+                            </div>
+                            <div class="faq-fields">
+                                <input type="text" name="faq2_question" placeholder="השאלה...">
+                                <textarea name="faq2_answer" placeholder="התשובה הקצרה..." rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="faq-item" data-faq="3">
+                            <div class="faq-item-header">
+                                <span class="faq-item-title">שאלה 3</span>
+                            </div>
+                            <div class="faq-fields">
+                                <input type="text" name="faq3_question" placeholder="השאלה...">
+                                <textarea name="faq3_answer" placeholder="התשובה הקצרה..." rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addFaq()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 8v8"/>
+                            <path d="M8 12h8"/>
+                        </svg>
+                        הוספת שאלה נוספת
+                    </button>
+                </div>
+            </section>
+
+            <!-- Section 4: Contact -->
+            <section class="form-section" id="section-contact">
+                <div class="section-header" onclick="toggleSection('section-contact')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">פרטי יצירת קשר</h2>
+                        <p class="section-subtitle">איך אפשר להגיע אליכם</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>כתובת מלאה</label>
+                        <input type="text" name="address" placeholder="רחוב, מספר, עיר">
+                    </div>
+                    <div class="form-group">
+                        <label>טלפון</label>
+                        <input type="tel" name="phone" placeholder="050-0000000" dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>וואטסאפ</label>
+                        <input type="tel" name="whatsapp" placeholder="050-0000000" dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>אימייל</label>
+                        <input type="email" name="email" placeholder="info@example.co.il" dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>קישור לפרופיל Google Business</label>
+                        <input type="url" name="googleBusiness" placeholder="https://g.page/..." dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>קישור לפייסבוק</label>
+                        <input type="url" name="facebook" placeholder="https://facebook.com/..." dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>קישור לאינסטגרם</label>
+                        <input type="url" name="instagram" placeholder="https://instagram.com/..." dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>קישור ללינקדאין</label>
+                        <input type="url" name="linkedin" placeholder="https://linkedin.com/company/..." dir="ltr">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <h3>סיימתם למלא? מעולה!</h3>
+                <p>לחצו על הכפתור כדי לשלוח את הפרטים אלינו</p>
+                <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13"/>
+                        <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    <span id="submitBtnText">שליחת השאלון</span>
+                </button>
+                <p style="font-size: 0.8125rem; margin-top: 1rem; opacity: 0.8;">הקובץ יישלח אלינו ונחזור אליכם בהקדם</p>
+            </div>
+        </form>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal" style="max-width: 500px; text-align: center;">
+            <div class="modal-header" style="border: none; justify-content: center; padding-bottom: 0;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #10b981, #06b6d4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" style="width: 40px; height: 40px;">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body" style="padding-top: 1rem;">
+                <h3 style="font-family: 'Rubik', sans-serif; font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--text-primary);">תודה רבה!</h3>
+                <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6;">השאלון נשלח בהצלחה.<br>נחזור אליכם בהקדם עם קובץ ה-LLMs.txt המוכן.</p>
+            </div>
+            <div class="modal-footer" style="justify-content: center; border: none;">
+                <button class="btn-download" onclick="closeSuccessModal()" style="min-width: 120px;">
+                    סגירה
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal" style="max-width: 500px; text-align: center;">
+            <div class="modal-header" style="border: none; justify-content: center; padding-bottom: 0;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ef4444, #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" style="width: 40px; height: 40px;">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="modal-body" style="padding-top: 1rem;">
+                <h3 style="font-family: 'Rubik', sans-serif; font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--text-primary);">אופס, משהו השתבש</h3>
+                <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6;">לא הצלחנו לשלוח את השאלון.<br>אנא נסו שוב או צרו קשר ישירות.</p>
+            </div>
+            <div class="modal-footer" style="justify-content: center; border: none;">
+                <button class="btn-copy" onclick="closeErrorModal()">
+                    סגירה
+                </button>
+                <button class="btn-download" onclick="retrySubmit()">
+                    נסה שוב
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 6L9 17l-5-5"/>
+        </svg>
+        <span id="toastText">הועתק בהצלחה!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        נבנה על ידי <a href="https://sorbet.co.il" target="_blank">Sorbet Agency</a> | שאלון ליצירת קובץ LLMs.txt
+    </footer>
+
+    <script>
+        // Service counter
+        let serviceCount = 1;
+        let faqCount = 3;
+
+        // Toggle section
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.toggle('collapsed');
+        }
+
+        // Add new service
+        function addService() {
+            serviceCount++;
+            const container = document.getElementById('servicesContainer');
+            const serviceHtml = `
+                <div class="service-card" data-service="${serviceCount}">
+                    <div class="service-card-header">
+                        <div class="service-card-title">
+                            <span>${serviceCount}</span>
+                            שירות ${serviceCount === 2 ? 'שני' : serviceCount === 3 ? 'שלישי' : serviceCount === 4 ? 'רביעי' : serviceCount === 5 ? 'חמישי' : 'נוסף'}
+                        </div>
+                        <button type="button" class="btn-remove-service" onclick="removeService(${serviceCount})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                            </svg>
+                            הסרה
+                        </button>
+                    </div>
+                    <div class="service-fields">
+                        <div class="form-group">
+                            <label>שם השירות</label>
+                            <input type="text" name="service${serviceCount}_name" placeholder="למשל: פיזיותרפיה אורתופדית">
+                        </div>
+                        <div class="form-group">
+                            <label>למי זה מתאים? <span class="label-hint">(בעיות/מצבים נפוצים)</span></label>
+                            <textarea name="service${serviceCount}_audience" placeholder="למשל: אנשים עם כאבי ברכיים, לאחר ניתוח החלפת מפרק, פציעות ספורט"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>מה מקבלים? <span class="label-hint">(תועלת מרכזית אחת)</span></label>
+                            <input type="text" name="service${serviceCount}_benefit" placeholder="למשל: חזרה לתפקוד מלא ללא כאב">
+                        </div>
+                        <div class="form-group">
+                            <label>איך זה עובד? <span class="label-hint">(2-3 צעדים בתהליך)</span></label>
+                            <textarea name="service${serviceCount}_process" placeholder="למשל: 1. אבחון ראשוני 2. תוכנית טיפול מותאמת 3. מעקב והתאמות"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>מתי מרגישים שיפור? <span class="label-hint">(טווח מפגשים משוער)</span></label>
+                            <input type="text" name="service${serviceCount}_timeline" placeholder="למשל: בדרך כלל 4-8 טיפולים">
+                        </div>
+                        <div class="form-group">
+                            <label>דרישות מקדימות <span class="label-hint">(אם יש)</span></label>
+                            <input type="text" name="service${serviceCount}_requirements" placeholder="למשל: הפניה מרופא אורתופד / ללא דרישות">
+                        </div>
+                        <div class="form-group">
+                            <label>הערות חשובות / התוויות נגד <span class="label-hint">(אם יש)</span></label>
+                            <input type="text" name="service${serviceCount}_notes" placeholder="למשל: לא מתאים למצבים דלקתיים אקוטיים">
+                        </div>
+                        <div class="form-group">
+                            <label>קישור לעמוד השירות באתר</label>
+                            <input type="url" name="service${serviceCount}_url" placeholder="https://example.co.il/services/..." dir="ltr">
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', serviceHtml);
+            updateProgress();
+        }
+
+        // Remove service
+        function removeService(serviceNum) {
+            const serviceCard = document.querySelector(`.service-card[data-service="${serviceNum}"]`);
+            if (serviceCard) {
+                serviceCard.remove();
+                updateProgress();
+            }
+        }
+
+        // Add FAQ
+        function addFaq() {
+            faqCount++;
+            const container = document.getElementById('faqContainer');
+            const faqHtml = `
+                <div class="faq-item" data-faq="${faqCount}">
+                    <div class="faq-item-header">
+                        <span class="faq-item-title">שאלה ${faqCount}</span>
+                        <button type="button" class="btn-remove-service" onclick="removeFaq(${faqCount})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+                                <path d="M18 6L6 18"/>
+                                <path d="M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-fields">
+                        <input type="text" name="faq${faqCount}_question" placeholder="השאלה...">
+                        <textarea name="faq${faqCount}_answer" placeholder="התשובה הקצרה..." rows="2"></textarea>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', faqHtml);
+            updateProgress();
+        }
+
+        // Remove FAQ
+        function removeFaq(faqNum) {
+            const faqItem = document.querySelector(`.faq-item[data-faq="${faqNum}"]`);
+            if (faqItem) {
+                faqItem.remove();
+                updateProgress();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const form = document.getElementById('llmsForm');
+            const inputs = form.querySelectorAll('input, textarea');
+            let filled = 0;
+            let total = 0;
+            
+            inputs.forEach(input => {
+                if (input.name) {
+                    total++;
+                    if (input.value.trim()) {
+                        filled++;
+                    }
+                }
+            });
+            
+            const percent = Math.round((filled / total) * 100);
+            document.querySelector('.progress-fill').style.width = `${percent}%`;
+            document.querySelector('.progress-percent').textContent = `${percent}%`;
+        }
+
+        // Add event listeners for progress tracking
+        document.addEventListener('input', updateProgress);
+
+        // Generate LLMs.txt content
+        function generateLLMsContent() {
+            const form = document.getElementById('llmsForm');
+            const formData = new FormData(form);
+            
+            let output = `# ${formData.get('businessName') || '[שם העסק]'}\n\n`;
+            
+            // Website
+            if (formData.get('websiteUrl')) {
+                output += `> ${formData.get('websiteUrl')}\n\n`;
+            }
+            
+            // Description
+            if (formData.get('shortDescription')) {
+                output += `## מי אנחנו\n${formData.get('shortDescription')}\n\n`;
+            }
+            
+            // Specializations
+            if (formData.get('specializations')) {
+                output += `## התמחויות\n${formData.get('specializations')}\n\n`;
+            }
+            
+            // Service area
+            if (formData.get('serviceArea')) {
+                output += `## אזור שירות\n${formData.get('serviceArea')}\n\n`;
+            }
+            
+            // Languages
+            if (formData.get('languages')) {
+                output += `## שפות\n${formData.get('languages')}\n\n`;
+            }
+            
+            // Target audiences
+            if (formData.get('targetAudiences')) {
+                output += `## קהל יעד\n${formData.get('targetAudiences')}\n\n`;
+            }
+            
+            // Keywords
+            if (formData.get('keywords')) {
+                output += `## מילות מפתח\n${formData.get('keywords')}\n\n`;
+            }
+            
+            // Trust proofs
+            if (formData.get('trustProofs')) {
+                output += `## יתרונות והוכחות אמון\n${formData.get('trustProofs')}\n\n`;
+            }
+            
+            // Services
+            let hasServices = false;
+            let servicesOutput = `## שירותים\n\n`;
+            
+            for (let i = 1; i <= serviceCount; i++) {
+                const serviceName = formData.get(`service${i}_name`);
+                if (serviceName) {
+                    hasServices = true;
+                    servicesOutput += `### ${serviceName}\n`;
+                    
+                    if (formData.get(`service${i}_audience`)) {
+                        servicesOutput += `**למי מתאים:** ${formData.get(`service${i}_audience`)}\n`;
+                    }
+                    if (formData.get(`service${i}_benefit`)) {
+                        servicesOutput += `**תועלת:** ${formData.get(`service${i}_benefit`)}\n`;
+                    }
+                    if (formData.get(`service${i}_process`)) {
+                        servicesOutput += `**תהליך:** ${formData.get(`service${i}_process`)}\n`;
+                    }
+                    if (formData.get(`service${i}_timeline`)) {
+                        servicesOutput += `**זמן לשיפור:** ${formData.get(`service${i}_timeline`)}\n`;
+                    }
+                    if (formData.get(`service${i}_requirements`)) {
+                        servicesOutput += `**דרישות:** ${formData.get(`service${i}_requirements`)}\n`;
+                    }
+                    if (formData.get(`service${i}_notes`)) {
+                        servicesOutput += `**הערות:** ${formData.get(`service${i}_notes`)}\n`;
+                    }
+                    if (formData.get(`service${i}_url`)) {
+                        servicesOutput += `**קישור:** ${formData.get(`service${i}_url`)}\n`;
+                    }
+                    servicesOutput += `\n`;
+                }
+            }
+            
+            if (hasServices) {
+                output += servicesOutput;
+            }
+            
+            // FAQ
+            let hasFaq = false;
+            let faqOutput = `## שאלות נפוצות\n\n`;
+            
+            for (let i = 1; i <= faqCount; i++) {
+                const question = formData.get(`faq${i}_question`);
+                const answer = formData.get(`faq${i}_answer`);
+                if (question && answer) {
+                    hasFaq = true;
+                    faqOutput += `**ש: ${question}**\nת: ${answer}\n\n`;
+                }
+            }
+            
+            if (hasFaq) {
+                output += faqOutput;
+            }
+            
+            // Business hours
+            if (formData.get('businessHours')) {
+                output += `## שעות פעילות\n${formData.get('businessHours')}\n\n`;
+            }
+            
+            // Booking
+            if (formData.get('bookingMethod')) {
+                output += `## קביעת תור\n${formData.get('bookingMethod')}\n\n`;
+            }
+            
+            // CTA
+            if (formData.get('mainCTA')) {
+                output += `## קריאה לפעולה\n${formData.get('mainCTA')}\n\n`;
+            }
+            
+            // Testimonial
+            if (formData.get('testimonial')) {
+                output += `## המלצה\n${formData.get('testimonial')}\n\n`;
+            }
+            
+            // Contact
+            let hasContact = false;
+            let contactOutput = `## יצירת קשר\n`;
+            
+            if (formData.get('address')) {
+                hasContact = true;
+                contactOutput += `- כתובת: ${formData.get('address')}\n`;
+            }
+            if (formData.get('phone')) {
+                hasContact = true;
+                contactOutput += `- טלפון: ${formData.get('phone')}\n`;
+            }
+            if (formData.get('whatsapp')) {
+                hasContact = true;
+                contactOutput += `- וואטסאפ: ${formData.get('whatsapp')}\n`;
+            }
+            if (formData.get('email')) {
+                hasContact = true;
+                contactOutput += `- אימייל: ${formData.get('email')}\n`;
+            }
+            
+            if (hasContact) {
+                output += contactOutput + `\n`;
+            }
+            
+            // Social links
+            let hasSocial = false;
+            let socialOutput = `## קישורים חשובים\n`;
+            
+            if (formData.get('googleBusiness')) {
+                hasSocial = true;
+                socialOutput += `- Google Business: ${formData.get('googleBusiness')}\n`;
+            }
+            if (formData.get('facebook')) {
+                hasSocial = true;
+                socialOutput += `- Facebook: ${formData.get('facebook')}\n`;
+            }
+            if (formData.get('instagram')) {
+                hasSocial = true;
+                socialOutput += `- Instagram: ${formData.get('instagram')}\n`;
+            }
+            if (formData.get('linkedin')) {
+                hasSocial = true;
+                socialOutput += `- LinkedIn: ${formData.get('linkedin')}\n`;
+            }
+            
+            if (hasSocial) {
+                output += socialOutput + `\n`;
+            }
+            
+            // Exclusions
+            if (formData.get('excludeTopics')) {
+                output += `---\n## הנחיות למודלי AI\nנא לא לציין: ${formData.get('excludeTopics')}\n`;
+            }
+            
+            return output;
+        }
+
+        // Set loading state
+        function setLoading(isLoading) {
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('submitBtnText');
+            
+            if (isLoading) {
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                btn.style.cursor = 'wait';
+                btnText.textContent = 'שולח...';
+            } else {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btnText.textContent = 'שליחת השאלון';
+            }
+        }
+
+        // Submit form
+        async function submitForm() {
+            const form = document.getElementById('llmsForm');
+            const formData = new FormData(form);
+            const businessName = formData.get('businessName');
+            
+            // Validate required fields
+            if (!businessName) {
+                showToast('נא למלא את שם העסק');
+                return;
+            }
+            
+            if (!formData.get('websiteUrl')) {
+                showToast('נא למלא את כתובת האתר');
+                return;
+            }
+            
+            if (!formData.get('shortDescription')) {
+                showToast('נא למלא תיאור קצר של העסק');
+                return;
+            }
+            
+            setLoading(true);
+            
+            // Generate LLMs.txt content
+            const llmsContent = generateLLMsContent();
+            
+            // Prepare data for submission
+            const submitData = {
+                _subject: `שאלון LLMs.txt חדש: ${businessName}`,
+                businessName: businessName,
+                websiteUrl: formData.get('websiteUrl'),
+                shortDescription: formData.get('shortDescription'),
+                email: formData.get('email') || 'לא צוין',
+                phone: formData.get('phone') || 'לא צוין',
+                llmsContent: llmsContent
+            };
+            
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/avishay@sorbetagency.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(submitData)
+                });
+                
+                const result = await response.json();
+                
+                setLoading(false);
+                
+                if (result.success) {
+                    document.getElementById('successModal').classList.add('active');
+                    // Reset form after successful submission
+                    form.reset();
+                    updateProgress();
+                } else {
+                    document.getElementById('errorModal').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                setLoading(false);
+                document.getElementById('errorModal').classList.add('active');
+            }
+        }
+
+        // Retry submit
+        function retrySubmit() {
+            closeErrorModal();
+            submitForm();
+        }
+
+        // Close success modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Close error modal
+        function closeErrorModal() {
+            document.getElementById('errorModal').classList.remove('active');
+        }
+
+        // Show toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close modals on overlay click
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSuccessModal();
+            }
+        });
+
+        document.getElementById('errorModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeErrorModal();
+            }
+        });
+
+        // Close modals on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSuccessModal();
+                closeErrorModal();
+            }
+        });
+
+        // Initial progress update
+        updateProgress();
+    </script>
+</body>
+</html>
