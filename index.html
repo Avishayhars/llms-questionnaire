@@ -72,6 +72,23 @@
             text-align: center;
         }
 
+        .hero-logo {
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-logo img {
+            height: 36px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.95;
+            transition: opacity 0.2s ease;
+        }
+
+        .hero-logo:hover img {
+            opacity: 1;
+        }
+
         .hero-badge {
             display: inline-flex;
             align-items: center;
@@ -756,6 +773,9 @@
 <body>
     <!-- Hero Header -->
     <header class="hero">
+        <a href="https://sorbetagency.com/" target="_blank" class="hero-logo" style="position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10;">
+            <img src="https://avishayhars.github.io/llms-questionnaire/Sorbet%20Agency%20Logo_tite.png" alt="Sorbet Agency" style="height: 32px;">
+        </a>
         <div class="hero-content">
             <div class="hero-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -827,7 +847,7 @@
                 <div class="section-content">
                     <div class="form-group">
                         <label>שם העסק המלא <span class="required-star">*</span></label>
-                        <input type="text" name="businessName" placeholder="כפי שתרצו שיופיע בתשובות AI" required>
+                        <input type="text" name="businessName" placeholder="למשל: מלון רויאל תל אביב" required>
                     </div>
                     <div class="form-group">
                         <label>כתובת האתר (URL) <span class="required-star">*</span></label>
@@ -839,27 +859,27 @@
                     </div>
                     <div class="form-group">
                         <label>תיאור קצר <span class="label-hint">(1-2 משפטים על מה אתם עושים ולמי)</span> <span class="required-star">*</span></label>
-                        <textarea name="shortDescription" placeholder="למשל: קליניקה לפיזיותרפיה המתמחה בשיקום ספורטאים ואנשים לאחר ניתוחים אורתופדיים" required></textarea>
+                        <textarea name="shortDescription" placeholder="למשל: חברת פארמה המתמחה בפיתוח תרופות ביולוגיות לטיפול במחלות אוטואימוניות" required></textarea>
                     </div>
                     <div class="form-group">
                         <label>במה אתם מתמחים במיוחד? <span class="label-hint">(3 נקודות קצרות)</span></label>
-                        <textarea name="specializations" placeholder="1. שיקום לאחר ניתוחי ברך&#10;2. טיפול בכאבי גב תחתון&#10;3. פיזיותרפיה לספורטאים"></textarea>
+                        <textarea name="specializations" placeholder="למשל: 1. ניהול תיקי השקעות 2. תכנון פרישה 3. מיסוי בינלאומי"></textarea>
                     </div>
                     <div class="form-group">
                         <label>אזור שירות מרכזי</label>
-                        <input type="text" name="serviceArea" placeholder="למשל: תל אביב והמרכז / כל הארץ / אונליין">
+                        <input type="text" name="serviceArea" placeholder="למשל: תל אביב והמרכז">
                     </div>
                     <div class="form-group">
                         <label>קהלי יעד עיקריים <span class="label-hint">(2-3 קבוצות)</span></label>
-                        <textarea name="targetAudiences" placeholder="למשל: ספורטאים מקצועיים, אנשים לאחר ניתוחים, עובדי הייטק עם כאבי גב"></textarea>
+                        <textarea name="targetAudiences" placeholder="למשל: תיירים מחו״ל, זוגות לחופשה רומנטית, אנשי עסקים"></textarea>
                     </div>
                     <div class="form-group">
                         <label>מילות מפתח מרכזיות <span class="label-hint">(איך תרצו שימצאו אתכם?)</span></label>
-                        <textarea name="keywords" placeholder="למשל: פיזיותרפיה תל אביב, שיקום ספורטאים, טיפול כאבי גב"></textarea>
+                        <textarea name="keywords" placeholder="למשל: תרופות ביולוגיות, ניסויים קליניים ישראל, פיתוח תרופות"></textarea>
                     </div>
                     <div class="form-group">
                         <label>יתרונות והוכחות אמון <span class="label-hint">(3-5 נקודות עובדתיות)</span></label>
-                        <textarea name="trustProofs" placeholder="למשל:&#10;• 15 שנות ניסיון&#10;• תואר שני בפיזיותרפיה&#10;• מעל 5,000 מטופלים&#10;• הסמכה בשיטת MDT"></textarea>
+                        <textarea name="trustProofs" placeholder="למשל: רישיון רשות ני״ע, 2 מיליארד ₪ תחת ניהול, צוות של 25 אנליסטים, תשואה ממוצעת 12% בשנה"></textarea>
                     </div>
                     <div class="form-group">
                         <label>שעות פעילות</label>
@@ -867,15 +887,15 @@
                     </div>
                     <div class="form-group">
                         <label>אופן קביעת תור וזמינות</label>
-                        <input type="text" name="bookingMethod" placeholder="למשל: טלפון, וואטסאפ, הזמנה באתר">
+                        <input type="text" name="bookingMethod" placeholder="למשל: הזמנה באתר, טלפון, או דרך Booking.com">
                     </div>
                     <div class="form-group">
                         <label>Call to Action עיקרי <span class="label-hint">(מה הפעולה שתרצו שאנשים יעשו?)</span></label>
-                        <input type="text" name="mainCTA" placeholder="למשל: הזמינו ייעוץ ראשוני חינם / התקשרו עכשיו / השאירו פרטים">
+                        <input type="text" name="mainCTA" placeholder="למשל: צרו קשר לפרטים על שיתוף פעולה מחקרי">
                     </div>
                     <div class="form-group">
                         <label>משפט עדות לקוח קצר <span class="label-hint">(אם יש)</span></label>
-                        <textarea name="testimonial" placeholder="למשל: ״אחרי 3 טיפולים הכאב בגב נעלם לחלוטין״ - דני, 42"></textarea>
+                        <textarea name="testimonial" placeholder="למשל: ״הכפילו את התיק שלי תוך 5 שנים״ - דני, יזם הייטק"></textarea>
                     </div>
                     <div class="form-group">
                         <label>מה לא לציין בתשובות AI <span class="label-hint">(אם יש משהו שחשוב להימנע ממנו)</span></label>
@@ -915,31 +935,31 @@
                             <div class="service-fields">
                                 <div class="form-group">
                                     <label>שם השירות</label>
-                                    <input type="text" name="service1_name" placeholder="למשל: פיזיותרפיה אורתופדית">
+                                    <input type="text" name="service1_name" placeholder="למשל: סוויטה נשיאותית">
                                 </div>
                                 <div class="form-group">
                                     <label>למי זה מתאים? <span class="label-hint">(בעיות/מצבים נפוצים)</span></label>
-                                    <textarea name="service1_audience" placeholder="למשל: אנשים עם כאבי ברכיים, לאחר ניתוח החלפת מפרק, פציעות ספורט"></textarea>
+                                    <textarea name="service1_audience" placeholder="למשל: חולי סוכרת סוג 2 שלא מגיבים לטיפול קונבנציונלי"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>מה מקבלים? <span class="label-hint">(תועלת מרכזית אחת)</span></label>
-                                    <input type="text" name="service1_benefit" placeholder="למשל: חזרה לתפקוד מלא ללא כאב">
+                                    <input type="text" name="service1_benefit" placeholder="למשל: תשואה עודפת על מדדי השוק">
                                 </div>
                                 <div class="form-group">
                                     <label>איך זה עובד? <span class="label-hint">(2-3 צעדים בתהליך)</span></label>
-                                    <textarea name="service1_process" placeholder="למשל: 1. אבחון ראשוני 2. תוכנית טיפול מותאמת 3. מעקב והתאמות"></textarea>
+                                    <textarea name="service1_process" placeholder="למשל: 1. הזמנה באתר 2. אישור ופרטי הגעה 3. צ׳ק-אין מהיר VIP"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>מתי מרגישים שיפור? <span class="label-hint">(טווח מפגשים משוער)</span></label>
-                                    <input type="text" name="service1_timeline" placeholder="למשל: בדרך כלל 4-8 טיפולים">
+                                    <input type="text" name="service1_timeline" placeholder="למשל: תוצאות ראשוניות אחרי 3 חודשי טיפול">
                                 </div>
                                 <div class="form-group">
                                     <label>דרישות מקדימות <span class="label-hint">(אם יש)</span></label>
-                                    <input type="text" name="service1_requirements" placeholder="למשל: הפניה מרופא אורתופד / ללא דרישות">
+                                    <input type="text" name="service1_requirements" placeholder="למשל: השקעה מינימלית 100,000 ₪">
                                 </div>
                                 <div class="form-group">
                                     <label>הערות חשובות / התוויות נגד <span class="label-hint">(אם יש)</span></label>
-                                    <input type="text" name="service1_notes" placeholder="למשל: לא מתאים למצבים דלקתיים אקוטיים">
+                                    <input type="text" name="service1_notes" placeholder="למשל: לא מתאים לילדים מתחת לגיל 16">
                                 </div>
                                 <div class="form-group">
                                     <label>קישור לעמוד השירות באתר</label>
