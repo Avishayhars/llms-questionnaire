@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMs.txt Questionnaire | AI Visibility Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-section: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-focus: #2563eb;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #06b6d4 100%);
+            padding: 3rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; text-align: center; }
+        .hero-logo { display: block; margin-bottom: 1.5rem; }
+        .hero-logo img { height: 36px; width: auto; filter: brightness(0) invert(1); opacity: 0.95; transition: opacity 0.2s ease; }
+        .hero-logo:hover img { opacity: 1; }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.875rem; color: white; margin-bottom: 1.5rem;
+        }
+        .hero-badge svg { width: 18px; height: 18px; }
+
+        .hero h1 { font-family: 'Poppins', sans-serif; font-size: 2.5rem; font-weight: 600; color: white; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .hero-subtitle { font-size: 1.125rem; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto; }
+
+        .info-box { max-width: 900px; margin: -2rem auto 0; padding: 0 1rem; position: relative; z-index: 2; }
+        .info-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem 2rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
+        .info-card h3 { font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .info-card h3 svg { width: 20px; height: 20px; stroke: var(--primary); }
+        .info-card p { color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.7; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+
+        .progress-container { background: var(--bg-card); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); position: sticky; top: 1rem; z-index: 100; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .progress-label { font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); }
+        .progress-percent { font-size: 0.875rem; font-weight: 600; color: var(--primary); }
+        .progress-bar { height: 8px; background: var(--bg-section); border-radius: 100px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); border-radius: 100px; transition: width 0.3s ease; width: 0%; }
+
+        .form-section { background: var(--bg-card); border-radius: var(--radius-lg); margin-bottom: 1rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); overflow: hidden; }
+        .section-header { display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem; cursor: pointer; transition: background 0.2s ease; }
+        .section-header:hover { background: var(--bg-section); }
+        .section-icon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--primary-light) 0%, #e0f2fe 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .section-icon svg { width: 24px; height: 24px; stroke: var(--primary); }
+        .section-title-group { flex: 1; }
+        .section-title { font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .section-subtitle { font-size: 0.875rem; color: var(--text-secondary); }
+        .section-toggle { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; }
+        .section-toggle svg { width: 20px; height: 20px; stroke: var(--text-muted); }
+        .form-section.collapsed .section-toggle { transform: rotate(180deg); }
+        .section-content { padding: 0 1.5rem 1.5rem; display: block; }
+        .form-section.collapsed .section-content { display: none; }
+
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group:last-child { margin-bottom: 0; }
+        .form-group label { display: block; font-size: 0.9375rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .label-hint { font-weight: 400; color: var(--text-muted); font-size: 0.8125rem; }
+        .required-star { color: #ef4444; }
+
+        input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea {
+            width: 100%; padding: 0.875rem 1rem; font-size: 0.9375rem; font-family: 'Inter', sans-serif;
+            border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-section);
+            color: var(--text-primary); transition: all 0.2s ease;
+        }
+        input:focus, textarea:focus { outline: none; border-color: var(--border-focus); background: var(--bg-card); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        input::placeholder, textarea::placeholder { color: var(--text-muted); }
+        textarea { min-height: 100px; resize: vertical; }
+
+        .service-card { background: var(--bg-section); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1rem; border: 1px solid var(--border); }
+        .service-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .service-card-title { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .service-card-title span { width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; }
+        .service-fields .form-group { margin-bottom: 1rem; }
+
+        .btn-remove-service { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; font-size: 0.8125rem; font-family: 'Inter', sans-serif; color: #ef4444; background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s ease; }
+        .btn-remove-service:hover { background: #fee2e2; }
+        .btn-remove-service svg { width: 16px; height: 16px; }
+
+        .faq-item { background: var(--bg-section); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 0.75rem; border: 1px solid var(--border); }
+        .faq-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+        .faq-item-title { font-weight: 500; color: var(--text-secondary); font-size: 0.875rem; }
+        .faq-fields input, .faq-fields textarea { margin-bottom: 0.5rem; }
+        .faq-fields textarea { min-height: 60px; }
+
+        .btn-add { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; font-size: 0.9375rem; font-family: 'Inter', sans-serif; font-weight: 500; color: var(--primary); background: var(--primary-light); border: 1px dashed var(--primary); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s ease; width: 100%; justify-content: center; }
+        .btn-add:hover { background: #dbeafe; }
+        .btn-add svg { width: 20px; height: 20px; }
+
+        .submit-section { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: var(--radius-lg); padding: 2rem; text-align: center; color: white; }
+        .submit-section h3 { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .submit-section p { opacity: 0.9; margin-bottom: 1.5rem; }
+
+        .btn-submit { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2.5rem; font-size: 1.125rem; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--primary); background: white; border: none; border-radius: 100px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+        .btn-submit svg { width: 24px; height: 24px; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; padding: 1rem; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal { background: var(--bg-card); border-radius: var(--radius-lg); width: 100%; max-width: 700px; max-height: 90vh; overflow: hidden; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal { transform: scale(1); }
+        .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); }
+        .modal-header h3 { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 600; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; max-height: calc(90vh - 140px); }
+        .modal-footer { display: flex; gap: 0.75rem; padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); justify-content: flex-end; }
+
+        .btn-copy, .btn-download { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-size: 0.9375rem; font-family: 'Inter', sans-serif; font-weight: 500; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s ease; }
+        .btn-copy { color: var(--text-secondary); background: var(--bg-section); border: 1px solid var(--border); }
+        .btn-copy:hover { background: var(--border); }
+        .btn-download { color: white; background: var(--primary); border: none; }
+        .btn-download:hover { background: var(--primary-dark); }
+
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 0.875rem 1.5rem; border-radius: 100px; font-size: 0.9375rem; display: flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1001; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+        .toast svg { width: 20px; height: 20px; stroke: var(--success); }
+
+        footer { text-align: center; padding: 2rem 1rem; color: var(--text-secondary); font-size: 0.875rem; }
+        footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 640px) {
+            .hero { padding: 2rem 1rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .info-card { padding: 1.25rem; }
+            .section-header { padding: 1rem; }
+            .section-icon { width: 40px; height: 40px; }
+            .section-icon svg { width: 20px; height: 20px; }
+            .section-title { font-size: 1rem; }
+            .section-content { padding: 0 1rem 1rem; }
+            .service-card { padding: 1rem; }
+            .submit-section { padding: 1.5rem; }
+            .btn-submit { padding: 0.875rem 2rem; font-size: 1rem; }
+            .modal-footer { flex-direction: column; }
+            .btn-copy, .btn-download { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <a href="https://sorbetagency.com/" target="_blank" class="hero-logo" style="position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10;">
+            <img src="https://avishayhars.github.io/llms-questionnaire/Sorbet%20Agency%20Logo_tite.png" alt="Sorbet Agency" style="height: 32px;">
+        </a>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+                GEO - Generative Engine Optimization
+            </div>
+            <h1>LLMs.txt Questionnaire</h1>
+            <p class="hero-subtitle">Complete this questionnaire to help us build a file that will boost your business visibility in AI model responses</p>
+        </div>
+    </header>
+
+    <div class="info-box">
+        <div class="info-card">
+            <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/>
+                    <path d="M12 8h.01"/>
+                </svg>
+                What is LLMs.txt?
+            </h3>
+            <p>An <strong>LLMs.txt</strong> file is a text file placed at the root of your website that helps AI engines (like ChatGPT, Claude, Gemini) understand what your business does, what services you offer, and which pages to cite. The goal is to strengthen your visibility and messaging in language model responses and content-based recommendations - so when someone asks AI about services in your field, the answer includes you.</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <form id="llmsForm">
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span class="progress-label">Questionnaire Progress</span>
+                    <span class="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+
+            <section class="form-section" id="section-business">
+                <div class="section-header" onclick="toggleSection('section-business')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">Business Details</h2>
+                        <p class="section-subtitle">Basic information about your business</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Full Business Name <span class="required-star">*</span></label>
+                        <input type="text" name="businessName" placeholder="e.g., Royal Hotel New York" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Website URL <span class="required-star">*</span></label>
+                        <input type="url" name="websiteUrl" placeholder="https://example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Website Languages</label>
+                        <input type="text" name="languages" placeholder="English, Spanish...">
+                    </div>
+                    <div class="form-group">
+                        <label>Short Description <span class="label-hint">(1-2 sentences about what you do and for whom)</span> <span class="required-star">*</span></label>
+                        <textarea name="shortDescription" placeholder="e.g., A pharmaceutical company specializing in developing biological drugs for treating autoimmune diseases" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>What do you specialize in? <span class="label-hint">(3 short points)</span></label>
+                        <textarea name="specializations" placeholder="e.g., 1. Investment portfolio management 2. Retirement planning 3. International taxation"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Main Service Area</label>
+                        <input type="text" name="serviceArea" placeholder="e.g., New York Metropolitan Area">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Audiences <span class="label-hint">(2-3 groups)</span></label>
+                        <textarea name="targetAudiences" placeholder="e.g., International tourists, couples on romantic getaways, business travelers"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Key Keywords <span class="label-hint">(how do you want to be found?)</span></label>
+                        <textarea name="keywords" placeholder="e.g., biological drugs, clinical trials USA, drug development"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Advantages & Trust Proofs <span class="label-hint">(3-5 factual points)</span></label>
+                        <textarea name="trustProofs" placeholder="e.g., SEC licensed, $2 billion under management, team of 25 analysts, average 12% annual return"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Business Hours</label>
+                        <input type="text" name="businessHours" placeholder="e.g., Mon-Fri 08:00-18:00, Sat 09:00-13:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Booking Method & Availability</label>
+                        <input type="text" name="bookingMethod" placeholder="e.g., Online booking, phone, or through Booking.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Main Call to Action <span class="label-hint">(what action do you want people to take?)</span></label>
+                        <input type="text" name="mainCTA" placeholder="e.g., Contact us for research collaboration details">
+                    </div>
+                    <div class="form-group">
+                        <label>Short Customer Testimonial <span class="label-hint">(if available)</span></label>
+                        <textarea name="testimonial" placeholder='e.g., "They doubled my portfolio in 5 years" - Danny, Tech Entrepreneur'></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>What NOT to mention in AI responses <span class="label-hint">(if there's something important to avoid)</span></label>
+                        <textarea name="excludeTopics" placeholder="e.g., Specific pricing, discontinued services..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section" id="section-services">
+                <div class="section-header" onclick="toggleSection('section-services')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">Services</h2>
+                        <p class="section-subtitle">Detail the main services you offer</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="servicesContainer">
+                        <div class="service-card" data-service="1">
+                            <div class="service-card-header">
+                                <div class="service-card-title"><span>1</span> First Service</div>
+                            </div>
+                            <div class="service-fields">
+                                <div class="form-group">
+                                    <label>Service Name</label>
+                                    <input type="text" name="service1_name" placeholder="e.g., Presidential Suite">
+                                </div>
+                                <div class="form-group">
+                                    <label>Who is this for? <span class="label-hint">(common problems/situations)</span></label>
+                                    <textarea name="service1_audience" placeholder="e.g., Type 2 diabetes patients not responding to conventional treatment"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>What do they get? <span class="label-hint">(one main benefit)</span></label>
+                                    <input type="text" name="service1_benefit" placeholder="e.g., Returns exceeding market indices">
+                                </div>
+                                <div class="form-group">
+                                    <label>How does it work? <span class="label-hint">(2-3 process steps)</span></label>
+                                    <textarea name="service1_process" placeholder="e.g., 1. Online booking 2. Confirmation & arrival details 3. Express VIP check-in"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>When to expect results? <span class="label-hint">(estimated timeframe)</span></label>
+                                    <input type="text" name="service1_timeline" placeholder="e.g., Initial results after 3 months of treatment">
+                                </div>
+                                <div class="form-group">
+                                    <label>Prerequisites <span class="label-hint">(if any)</span></label>
+                                    <input type="text" name="service1_requirements" placeholder="e.g., Minimum investment $100,000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Important Notes / Contraindications <span class="label-hint">(if any)</span></label>
+                                    <input type="text" name="service1_notes" placeholder="e.g., Not suitable for children under 16">
+                                </div>
+                                <div class="form-group">
+                                    <label>Link to Service Page</label>
+                                    <input type="url" name="service1_url" placeholder="https://example.com/services/...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addService()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                        Add Another Service
+                    </button>
+                </div>
+            </section>
+
+            <section class="form-section" id="section-faq">
+                <div class="section-header" onclick="toggleSection('section-faq')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">Frequently Asked Questions</h2>
+                        <p class="section-subtitle">3-5 questions customers ask the most</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="faqContainer">
+                        <div class="faq-item" data-faq="1">
+                            <div class="faq-item-header"><span class="faq-item-title">Question 1</span></div>
+                            <div class="faq-fields">
+                                <input type="text" name="faq1_question" placeholder="The question...">
+                                <textarea name="faq1_answer" placeholder="The short answer..." rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="faq-item" data-faq="2">
+                            <div class="faq-item-header"><span class="faq-item-title">Question 2</span></div>
+                            <div class="faq-fields">
+                                <input type="text" name="faq2_question" placeholder="The question...">
+                                <textarea name="faq2_answer" placeholder="The short answer..." rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="faq-item" data-faq="3">
+                            <div class="faq-item-header"><span class="faq-item-title">Question 3</span></div>
+                            <div class="faq-fields">
+                                <input type="text" name="faq3_question" placeholder="The question...">
+                                <textarea name="faq3_answer" placeholder="The short answer..." rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addFaq()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                        Add Another Question
+                    </button>
+                </div>
+            </section>
+
+            <section class="form-section" id="section-contact">
+                <div class="section-header" onclick="toggleSection('section-contact')">
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                        </svg>
+                    </div>
+                    <div class="section-title-group">
+                        <h2 class="section-title">Contact Details</h2>
+                        <p class="section-subtitle">How can people reach you</p>
+                    </div>
+                    <div class="section-toggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label>Full Address</label>
+                        <input type="text" name="address" placeholder="Street, Number, City">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone" placeholder="+1-555-000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" name="whatsapp" placeholder="+1-555-000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="info@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Google Business Profile Link</label>
+                        <input type="url" name="googleBusiness" placeholder="https://g.page/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook Link</label>
+                        <input type="url" name="facebook" placeholder="https://facebook.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram Link</label>
+                        <input type="url" name="instagram" placeholder="https://instagram.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>LinkedIn Link</label>
+                        <input type="url" name="linkedin" placeholder="https://linkedin.com/company/...">
+                    </div>
+                </div>
+            </section>
+
+            <div class="submit-section">
+                <h3>Done filling out? Great!</h3>
+                <p>Click the button to submit your details to us</p>
+                <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    <span id="submitBtnText">Submit Questionnaire</span>
+                </button>
+                <p style="font-size: 0.8125rem; margin-top: 1rem; opacity: 0.8;">The file will be sent to us and we'll get back to you soon</p>
+            </div>
+        </form>
+    </main>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal" style="max-width: 500px; text-align: center;">
+            <div class="modal-header" style="border: none; justify-content: center; padding-bottom: 0;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #10b981, #06b6d4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" style="width: 40px; height: 40px;"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+            </div>
+            <div class="modal-body" style="padding-top: 1rem;">
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--text-primary);">Thank You!</h3>
+                <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6;">The questionnaire was submitted successfully.</p>
+            </div>
+            <div class="modal-footer" style="justify-content: center; border: none;">
+                <button class="btn-download" onclick="closeSuccessModal()" style="min-width: 120px; text-align: center; justify-content: center;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal" style="max-width: 500px; text-align: center;">
+            <div class="modal-header" style="border: none; justify-content: center; padding-bottom: 0;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ef4444, #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" style="width: 40px; height: 40px;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                </div>
+            </div>
+            <div class="modal-body" style="padding-top: 1rem;">
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--text-primary);">Oops, something went wrong</h3>
+                <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.6;">We couldn't submit the questionnaire.<br>Please try again or contact us directly.</p>
+            </div>
+            <div class="modal-footer" style="justify-content: center; border: none;">
+                <button class="btn-copy" onclick="closeErrorModal()">Close</button>
+                <button class="btn-download" onclick="retrySubmit()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        <span id="toastText">Copied successfully!</span>
+    </div>
+
+    <footer>Built by <a href="https://sorbetagency.com/" target="_blank">Sorbet Agency</a> | LLMs.txt File Questionnaire</footer>
+
+    <script>
+        let serviceCount = 1;
+        let faqCount = 3;
+
+        function toggleSection(sectionId) {
+            document.getElementById(sectionId).classList.toggle('collapsed');
+        }
+
+        function addService() {
+            serviceCount++;
+            const labels = ['Second', 'Third', 'Fourth', 'Fifth', 'Additional'];
+            const label = labels[Math.min(serviceCount - 2, 4)];
+            document.getElementById('servicesContainer').insertAdjacentHTML('beforeend', `
+                <div class="service-card" data-service="${serviceCount}">
+                    <div class="service-card-header">
+                        <div class="service-card-title"><span>${serviceCount}</span> ${label} Service</div>
+                        <button type="button" class="btn-remove-service" onclick="removeService(${serviceCount})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                            Remove
+                        </button>
+                    </div>
+                    <div class="service-fields">
+                        <div class="form-group"><label>Service Name</label><input type="text" name="service${serviceCount}_name" placeholder="e.g., Orthopedic Physiotherapy"></div>
+                        <div class="form-group"><label>Who is this for? <span class="label-hint">(common problems/situations)</span></label><textarea name="service${serviceCount}_audience" placeholder="e.g., People with knee pain, after joint replacement, sports injuries"></textarea></div>
+                        <div class="form-group"><label>What do they get? <span class="label-hint">(one main benefit)</span></label><input type="text" name="service${serviceCount}_benefit" placeholder="e.g., Full pain-free functionality"></div>
+                        <div class="form-group"><label>How does it work? <span class="label-hint">(2-3 process steps)</span></label><textarea name="service${serviceCount}_process" placeholder="e.g., 1. Initial assessment 2. Customized treatment plan 3. Follow-up"></textarea></div>
+                        <div class="form-group"><label>When to expect results? <span class="label-hint">(estimated timeframe)</span></label><input type="text" name="service${serviceCount}_timeline" placeholder="e.g., Usually 4-8 treatments"></div>
+                        <div class="form-group"><label>Prerequisites <span class="label-hint">(if any)</span></label><input type="text" name="service${serviceCount}_requirements" placeholder="e.g., Referral from orthopedic doctor / No requirements"></div>
+                        <div class="form-group"><label>Important Notes / Contraindications <span class="label-hint">(if any)</span></label><input type="text" name="service${serviceCount}_notes" placeholder="e.g., Not suitable for acute inflammatory conditions"></div>
+                        <div class="form-group"><label>Link to Service Page</label><input type="url" name="service${serviceCount}_url" placeholder="https://example.com/services/..."></div>
+                    </div>
+                </div>
+            `);
+            updateProgress();
+        }
+
+        function removeService(num) {
+            const el = document.querySelector(`.service-card[data-service="${num}"]`);
+            if (el) { el.remove(); updateProgress(); }
+        }
+
+        function addFaq() {
+            faqCount++;
+            document.getElementById('faqContainer').insertAdjacentHTML('beforeend', `
+                <div class="faq-item" data-faq="${faqCount}">
+                    <div class="faq-item-header">
+                        <span class="faq-item-title">Question ${faqCount}</span>
+                        <button type="button" class="btn-remove-service" onclick="removeFaq(${faqCount})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <div class="faq-fields">
+                        <input type="text" name="faq${faqCount}_question" placeholder="The question...">
+                        <textarea name="faq${faqCount}_answer" placeholder="The short answer..." rows="2"></textarea>
+                    </div>
+                </div>
+            `);
+            updateProgress();
+        }
+
+        function removeFaq(num) {
+            const el = document.querySelector(`.faq-item[data-faq="${num}"]`);
+            if (el) { el.remove(); updateProgress(); }
+        }
+
+        function updateProgress() {
+            const inputs = document.getElementById('llmsForm').querySelectorAll('input, textarea');
+            let filled = 0, total = 0;
+            inputs.forEach(i => { if (i.name) { total++; if (i.value.trim()) filled++; } });
+            const pct = Math.round((filled / total) * 100);
+            document.querySelector('.progress-fill').style.width = `${pct}%`;
+            document.querySelector('.progress-percent').textContent = `${pct}%`;
+        }
+
+        document.addEventListener('input', updateProgress);
+
+        function generateLLMsContent() {
+            const fd = new FormData(document.getElementById('llmsForm'));
+            let o = `# ${fd.get('businessName') || '[Business Name]'}\n\n`;
+            if (fd.get('websiteUrl')) o += `> ${fd.get('websiteUrl')}\n\n`;
+            if (fd.get('shortDescription')) o += `## About Us\n${fd.get('shortDescription')}\n\n`;
+            if (fd.get('specializations')) o += `## Specializations\n${fd.get('specializations')}\n\n`;
+            if (fd.get('serviceArea')) o += `## Service Area\n${fd.get('serviceArea')}\n\n`;
+            if (fd.get('languages')) o += `## Languages\n${fd.get('languages')}\n\n`;
+            if (fd.get('targetAudiences')) o += `## Target Audience\n${fd.get('targetAudiences')}\n\n`;
+            if (fd.get('keywords')) o += `## Keywords\n${fd.get('keywords')}\n\n`;
+            if (fd.get('trustProofs')) o += `## Advantages & Trust Proofs\n${fd.get('trustProofs')}\n\n`;
+            
+            let svc = `## Services\n\n`, hasSvc = false;
+            for (let i = 1; i <= serviceCount; i++) {
+                const n = fd.get(`service${i}_name`);
+                if (n) { hasSvc = true; svc += `### ${n}\n`;
+                    if (fd.get(`service${i}_audience`)) svc += `**Who it's for:** ${fd.get(`service${i}_audience`)}\n`;
+                    if (fd.get(`service${i}_benefit`)) svc += `**Benefit:** ${fd.get(`service${i}_benefit`)}\n`;
+                    if (fd.get(`service${i}_process`)) svc += `**Process:** ${fd.get(`service${i}_process`)}\n`;
+                    if (fd.get(`service${i}_timeline`)) svc += `**Timeline:** ${fd.get(`service${i}_timeline`)}\n`;
+                    if (fd.get(`service${i}_requirements`)) svc += `**Requirements:** ${fd.get(`service${i}_requirements`)}\n`;
+                    if (fd.get(`service${i}_notes`)) svc += `**Notes:** ${fd.get(`service${i}_notes`)}\n`;
+                    if (fd.get(`service${i}_url`)) svc += `**Link:** ${fd.get(`service${i}_url`)}\n`;
+                    svc += `\n`;
+                }
+            }
+            if (hasSvc) o += svc;
+
+            let faq = `## Frequently Asked Questions\n\n`, hasFaq = false;
+            for (let i = 1; i <= faqCount; i++) {  
+                const q = fd.get(`faq${i}_question`), a = fd.get(`faq${i}_answer`);
+                if (q && a) { hasFaq = true; faq += `**Q: ${q}**\nA: ${a}\n\n`; }
+            }
+            if (hasFaq) o += faq;
+
+            if (fd.get('businessHours')) o += `## Business Hours\n${fd.get('businessHours')}\n\n`;
+            if (fd.get('bookingMethod')) o += `## Booking\n${fd.get('bookingMethod')}\n\n`;
+            if (fd.get('mainCTA')) o += `## Call to Action\n${fd.get('mainCTA')}\n\n`;
+            if (fd.get('testimonial')) o += `## Testimonial\n${fd.get('testimonial')}\n\n`;
+
+            let cnt = `## Contact\n`, hasCnt = false;
+            if (fd.get('address')) { hasCnt = true; cnt += `- Address: ${fd.get('address')}\n`; }
+            if (fd.get('phone')) { hasCnt = true; cnt += `- Phone: ${fd.get('phone')}\n`; }
+            if (fd.get('whatsapp')) { hasCnt = true; cnt += `- WhatsApp: ${fd.get('whatsapp')}\n`; }
+            if (fd.get('email')) { hasCnt = true; cnt += `- Email: ${fd.get('email')}\n`; }
+            if (hasCnt) o += cnt + `\n`;
+
+            let soc = `## Important Links\n`, hasSoc = false;
+            if (fd.get('googleBusiness')) { hasSoc = true; soc += `- Google Business: ${fd.get('googleBusiness')}\n`; }
+            if (fd.get('facebook')) { hasSoc = true; soc += `- Facebook: ${fd.get('facebook')}\n`; }
+            if (fd.get('instagram')) { hasSoc = true; soc += `- Instagram: ${fd.get('instagram')}\n`; }
+            if (fd.get('linkedin')) { hasSoc = true; soc += `- LinkedIn: ${fd.get('linkedin')}\n`; }
+            if (hasSoc) o += soc + `\n`;
+
+            if (fd.get('excludeTopics')) o += `---\n## AI Model Guidelines\nPlease do not mention: ${fd.get('excludeTopics')}\n`;
+            return o;
+        }
+
+        function setLoading(loading) {
+            const btn = document.getElementById('submitBtn'), txt = document.getElementById('submitBtnText');
+            btn.disabled = loading; btn.style.opacity = loading ? '0.7' : '1'; btn.style.cursor = loading ? 'wait' : 'pointer';
+            txt.textContent = loading ? 'Submitting...' : 'Submit Questionnaire';
+        }
+
+        async function submitForm() {
+            const fd = new FormData(document.getElementById('llmsForm'));
+            if (!fd.get('businessName')) { showToast('Please fill in the business name'); return; }
+            if (!fd.get('websiteUrl')) { showToast('Please fill in the website URL'); return; }
+            if (!fd.get('shortDescription')) { showToast('Please fill in a short business description'); return; }
+            setLoading(true);
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/74744637a1487cc5871be9a4e678d748', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: `New LLMs.txt Questionnaire: ${fd.get('businessName')}`,
+                        businessName: fd.get('businessName'), websiteUrl: fd.get('websiteUrl'),
+                        shortDescription: fd.get('shortDescription'), email: fd.get('email') || 'Not provided',
+                        phone: fd.get('phone') || 'Not provided', llmsContent: generateLLMsContent()
+                    })
+                });
+                const result = await res.json();
+                setLoading(false);
+                if (result.success) {
+                    document.getElementById('successModal').classList.add('active');
+                    document.getElementById('llmsForm').reset(); updateProgress();
+                } else { document.getElementById('errorModal').classList.add('active'); }
+            } catch (e) { console.error(e); setLoading(false); document.getElementById('errorModal').classList.add('active'); }
+        }
+
+        function retrySubmit() { closeErrorModal(); submitForm(); }
+        function closeSuccessModal() { document.getElementById('successModal').classList.remove('active'); }
+        function closeErrorModal() { document.getElementById('errorModal').classList.remove('active'); }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastText').textContent = msg;
+            t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        document.getElementById('successModal').addEventListener('click', e => { if (e.target === document.getElementById('successModal')) closeSuccessModal(); });
+        document.getElementById('errorModal').addEventListener('click', e => { if (e.target === document.getElementById('errorModal')) closeErrorModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSuccessModal(); closeErrorModal(); } });
+        updateProgress();
+    </script>
+</body>
+</html>
